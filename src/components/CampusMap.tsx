@@ -11,6 +11,8 @@ interface Building {
   x: number;
   y: number;
   elevatorStatus: 'good' | 'moderate' | 'busy';
+  waitingTime: number; // 예상 대기시간 (분)
+  queueCount: number; // 대기 인원
   reports: number;
   facilities: string[];
 }
@@ -55,6 +57,8 @@ const CampusMap = () => {
       x: 35,
       y: 40,
       elevatorStatus: 'good',
+      waitingTime: 1,
+      queueCount: 2,
       reports: 2,
       facilities: ['엘리베이터', '장애인화장실', '경사로', '점자블록']
     },
@@ -65,6 +69,8 @@ const CampusMap = () => {
       x: 65,
       y: 45,
       elevatorStatus: 'busy',
+      waitingTime: 5,
+      queueCount: 8,
       reports: 5,
       facilities: ['엘리베이터', '장애인화장실', '휠체어리프트']
     },
@@ -75,6 +81,8 @@ const CampusMap = () => {
       x: 20,
       y: 60,
       elevatorStatus: 'moderate',
+      waitingTime: 3,
+      queueCount: 4,
       reports: 1,
       facilities: ['엘리베이터', '경사로']
     },
@@ -85,8 +93,34 @@ const CampusMap = () => {
       x: 80,
       y: 30,
       elevatorStatus: 'good',
+      waitingTime: 2,
+      queueCount: 1,
       reports: 0,
       facilities: ['엘리베이터', '장애인화장실', '경사로', '점자블록', '휠체어리프트']
+    },
+    {
+      id: 'library',
+      name: '중앙도서관',
+      code: '도서관',
+      x: 50,
+      y: 25,
+      elevatorStatus: 'moderate',
+      waitingTime: 4,
+      queueCount: 6,
+      reports: 3,
+      facilities: ['엘리베이터', '장애인화장실', '경사로', '점자블록', '휠체어리프트']
+    },
+    {
+      id: 'nichols',
+      name: '니콜스관',
+      code: 'N관',
+      x: 45,
+      y: 65,
+      elevatorStatus: 'good',
+      waitingTime: 1,
+      queueCount: 0,
+      reports: 1,
+      facilities: ['엘리베이터', '장애인화장실', '경사로']
     }
   ];
 
@@ -217,13 +251,24 @@ const CampusMap = () => {
               }}
             />
             
-            {/* Elevator Status Indicator */}
+            {/* Elevator Status Indicator - Traffic Light Style */}
             <circle
               cx={building.x + 3}
               cy={building.y - 4}
-              r="1.5"
-              className={`${getStatusColor(building.elevatorStatus)} stroke-white`}
-              strokeWidth="0.3"
+              r="2"
+              className={`${getStatusColor(building.elevatorStatus)}`}
+              stroke="hsl(var(--border))"
+              strokeWidth="0.4"
+            />
+            
+            {/* Status Ring for Better Visibility */}
+            <circle
+              cx={building.x + 3}
+              cy={building.y - 4}
+              r="2.8"
+              fill="none"
+              stroke="hsl(var(--card))"
+              strokeWidth="0.6"
             />
             
             {/* Building Label */}
@@ -286,9 +331,21 @@ const CampusMap = () => {
 
               <div className="space-y-4">
                 <div>
-                  <div className="flex items-center space-x-2 mb-2">
-                    <div className={`w-3 h-3 rounded-full ${getStatusColor(selectedBuilding.elevatorStatus)}`}></div>
-                    <span className="font-medium">엘리베이터: {getStatusText(selectedBuilding.elevatorStatus)}</span>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                      <div className={`w-4 h-4 rounded-full ${getStatusColor(selectedBuilding.elevatorStatus)}`}></div>
+                      <span className="font-medium">엘리베이터: {getStatusText(selectedBuilding.elevatorStatus)}</span>
+                    </div>
+                  </div>
+                  <div className="bg-muted/50 rounded-lg p-3 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">예상 대기시간</span>
+                      <span className="font-medium">{selectedBuilding.waitingTime}분</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">대기 인원</span>
+                      <span className="font-medium">{selectedBuilding.queueCount}명</span>
+                    </div>
                   </div>
                 </div>
 
