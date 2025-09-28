@@ -47,6 +47,17 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Campus-specific colors
+        campus: {
+          navy: "hsl(var(--campus-navy))",
+          light: "hsl(var(--campus-light))",
+          accent: "hsl(var(--campus-accent))",
+        },
+        status: {
+          good: "hsl(var(--status-good))",
+          moderate: "hsl(var(--status-moderate))",
+          busy: "hsl(var(--status-busy))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -62,6 +73,14 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backgroundImage: {
+        'gradient-campus': 'var(--gradient-campus)',
+        'gradient-primary': 'var(--gradient-primary)',
+      },
+      boxShadow: {
+        'campus': 'var(--shadow-campus)',
+        'elevated': 'var(--shadow-elevated)',
       },
       keyframes: {
         "accordion-down": {
